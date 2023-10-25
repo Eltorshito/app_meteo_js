@@ -6,10 +6,19 @@ const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=Liege,be&a
 fetch(weatherUrl)
     .then(response => response.json())
     .then(data => {
-        const description = data.weather[0].description;
+        const description = data.weather[0].description.toLowerCase();
         const tempMin = data.main.temp_min;
         const tempMax = data.main.temp_max;
         const date = new Date(data.dt * 1000); // Convertit le timestamp en date
+        const options = { 
+            weekday: 'long', 
+            day: 'numeric', 
+            month: 'long', 
+            hour: 'numeric', 
+            minute: 'numeric',
+            hour12: false
+        };
+        const formattedDate = date.toLocaleDateString('fr-FR', options);
         const windSpeed = data.wind.speed;
 
         const template = document.querySelector('#weather-template');
@@ -17,11 +26,11 @@ fetch(weatherUrl)
         const li = document.createElement('li');
 
         li.innerHTML = `
-        ${date}<br>
+        ${formattedDate}<br>
         Description : ${description}<br>
         Temp Mini : ${tempMin}°C<br>
         Temp Max : ${tempMax}°C<br>
-        Vitesse du Vent : ${windSpeed} m/s
+        Vitesse du Vent : ${windSpeed.toFixed(2)} km/s
         `;
 
         ul.appendChild(li);
@@ -46,6 +55,7 @@ fetch(weatherUrl)
         const cardData = document.querySelector('.card-data');
         cardData.insertBefore(iconImg, cardData.firstChild);
 
+   
     })
 
     .catch(error => {
