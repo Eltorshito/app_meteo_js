@@ -32,18 +32,17 @@ fetch(weatherUrl)
         cardDiv.appendChild(template.content.cloneNode(true));
         card.appendChild(cardDiv);
 
-        // Récupère le code d'icône depuis la réponse de l'API
         const iconCode = data.weather[0].icon;
 
-        // Construis l'URL de l'icône en fonction du code
+
         const iconUrl = `http://openweathermap.org/img/w/${iconCode}.png`;
 
-        // Crée un élément img avec la source de l'icône
+
         const iconImg = document.createElement('img');
         iconImg.src = iconUrl;
         iconImg.alt = 'Weather Icon';
 
-        // Insère l'icône dans la carte
+
         const cardData = document.querySelector('.card-data');
         cardData.insertBefore(iconImg, cardData.firstChild);
 
